@@ -91,6 +91,7 @@ Progress: 56672 / 882244 (6.42%)
 
 ```bash
 http://10.10.97.133/admin
+<<<<<<< HEAD
 
 ```
 
@@ -105,6 +106,22 @@ Viewing `source code`
 
 We have port 873 running which is `Rsync` you can read more about this here[hacktricks.xyz/pentesting/873-pentesting-rsync](https://book.hacktricks.xyz/pentesting/873-pentesting-rsync)
 
+=======
+
+```
+
+<img style="border:2px solid black" src="/images/My_New_Hugo_Site.png" align="left"><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+
+
+Viewing `source code` 
+
+<img style="border:2px solid black" src="/images/My_New_Hugo_Site.png" align="left"><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+
+##Rsync Enumeration
+
+We have port 873 running which is `Rsync` you can read more about this here[hacktricks.xyz/pentesting/873-pentesting-rsync](https://book.hacktricks.xyz/pentesting/873-pentesting-rsync)
+
+>>>>>>> 851a5582408dd1b3b28c829852ad6b894439a2e3
 ```bash
 rsync -rdt rsync://10.10.38.244:873
 
@@ -159,6 +176,7 @@ The env variable is set to `prod`  .... change this to `dev` (for development)an
 rsync -av webapp.ini rsync://10.10.101.93:873/Conf/webapp.ini  
 
 ```
+<<<<<<< HEAD
 
 Accessing the admin page again  `http://10.10.101.93/admin/`
 
@@ -169,6 +187,18 @@ Use `brupsuite` and saving the request as `req.txt` file
 
 ##SQLmap
 
+=======
+
+Accessing the admin page again  `http://10.10.101.93/admin/`
+
+
+<img style="border:2px solid black" src="/images/My_New_Hugo_Site.png" align="left"><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+ 
+Use `brupsuite` and saving the request as `req.txt` file
+
+##SQLmap
+
+>>>>>>> 851a5582408dd1b3b28c829852ad6b894439a2e3
 use sqlmap `batch mode` so that it doesn't ask for inputs and `os-shell` to get the shell.
 ```bash
 sqlmap -r req.txt --level 3 --risk 3 --batch --os-shell
