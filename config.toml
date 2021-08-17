@@ -2,7 +2,7 @@ baseURL = "http://hritik-saini.github.io/"
 title ="Hritik saini"
 theme = "hugo-theme-cleanwhite-rsy"
 languageCode = "en-us"
-paginate = 5000 #frontpage pagination
+paginate = 5 #frontpage pagination
 
 [markup]
   [markup.goldmark]
@@ -10,6 +10,8 @@ paginate = 5000 #frontpage pagination
       unsafe = true
 
 [params]
+  header_image = "images/main_go_wideandtall_darklayer.jpeg"
+  title = "Cybersecurity Blog"
   SEOTitle = "Hritk saini blog"
   keyword = "Ctf player , hacker , pentester , hackthebox , tryhackme, IIT Roorkee , blog , writeups , hacking  " 
 
