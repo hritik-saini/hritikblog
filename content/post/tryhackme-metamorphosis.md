@@ -209,23 +209,21 @@ Running `linpeas` we get that user can run `Tcpdump`
 
 Running `Pspy64` we get
 
-<img style="border:2px solid black" src="/images/pspyoutput.png" align="left"><br><br><br><br><br><br><br><br><br>
+<img style="border:2px solid black" src="/images/pspyoutput.png" align="left"><br><br><br><br><br><br>
 
-It shows root run `req.sh` and 	`sudo -l` not give any information
+Now finally run tcpdump in `/var/www/html` and Get the output using `Wget`
 
-Now finally run tcpdump in /var/www/html and capture the output using wget ...............
-
-<img style="border:2px solid black" src="/images/tcpdump.png" align="left"><br><br><br><br><br><br><br><br><br>
+<img style="border:2px solid black" src="/images/tcpdump.png" align="left"><br><br><br><br><br><br><br>
 
 In Attakcer Machine run `wget http://10.10.101.93/1.pcap`
 
 Open 1.pcap file in `Wireshark`
 
-follow tcp stream and get the SSH key
+Follow `Tcp Stream` and Get `SSH Key`
 
-<img style="border:2px solid black" src="/images/sshkey1.png" align="left"><br><br><br><br><br><br><br><br><br><br>
+<img style="border:2px solid black" src="/images/sshkey1.png" align="left"><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
 
-log in with key and get `root.txt`
+`Log in` with key and get `root.txt`
 
 <img style="border:2px solid black" src="/images/root.png" align="left"><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
 
