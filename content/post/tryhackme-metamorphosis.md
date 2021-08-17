@@ -4,7 +4,7 @@ date: 2021-08-16T15:55:27+05:30
 draft: true
 toc: true
 image: "images/github-pagesLightBlue.jpeg"
-tags: ["blog", "GitHub Pages" ,"Hugo"]
+tags: ["blog", "GitHub Pages"]
 categories: ["blog"]
 ---
 
