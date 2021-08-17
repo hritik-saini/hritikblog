@@ -10,9 +10,6 @@ paginate = 5000 #frontpage pagination
       unsafe = true
 
 [params]
-  header_image = "images/main_go_wideandtall_darklayer.jpeg"
-  title = "CTF Player"
-  slogan = "$ grep -rni \"The how's and why's\" ."
   SEOTitle = "Hritk saini blog"
   keyword = "Ctf player , hacker , pentester , hackthebox , tryhackme, IIT Roorkee , blog , writeups , hacking  " 
 
